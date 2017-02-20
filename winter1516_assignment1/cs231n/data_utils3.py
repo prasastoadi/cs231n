@@ -16,7 +16,8 @@ def dict_bytes_to_strings(dicti):
     if isinstance(dicti, bytes): return dicti.decode()
     if isinstance(dicti, tuple): return tuple(map(dict_bytes_to_strings, dicti))
     if isinstance(dicti, list): return list(map(dict_bytes_to_strings, dicti))
-    if isinstance(dici, dict): return dict(map(dict_bytes_to_strings, dicti.items()))
+    if isinstance(dicti, set): return set(map(dict_bytes_to_strings, dicti))
+    if isinstance(dicti, dict): return dict(map(dict_bytes_to_strings, dicti.items()))
     return dicti
 
 def convert_CIFAR_py2_to_py3(filename, newname=None, postfix='3'):
