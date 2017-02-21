@@ -20,7 +20,7 @@ def dict_bytes_to_strings(dicti):
     if isinstance(dicti, dict): return dict(map(dict_bytes_to_strings, dicti.items()))
     return dicti
 
-def convert_CIFAR_py2_to_py3(filename, newname=None, postfix='3'):
+def convert_CIFAR_py2_to_py3(filename, newname=None, suffix='3'):
     """ konversi CIFAR 10 Python 2 pickle to Python 3
 
     Returns:
@@ -34,23 +34,23 @@ def convert_CIFAR_py2_to_py3(filename, newname=None, postfix='3'):
     
     batch_data = dict_bytes_to_strings(batch_data)
 
-    if not newname: newname = filename + postfix
+    if not newname: newname = filename + suffix
 
     with open(newname, 'wb+') as batch_file:     
         pickle.dump(batch_data, batch_file, protocol=pickle.HIGHEST_PROTOCOL)
         
-def convert_CIFAR(dirname, postfix='3'):
+def convert_CIFAR(dirname, suffix='3'):
     """convert all batches in directory"""
-    newdir = '{0} {1}'.format(dirname, postfix)
+    newdir = '{0}{1}'.format(dirname, suffix)
     os.makedirs(newdir, exist_ok=True)
     for i in range(1,6):
         filename = os.path.join(dirname, 'data_batch_%d'%(i))
         newname =  os.path.join(newdir, 'data_batch_%d'%(i))
-        convert_CIFAR_py2_to_py3(filename, newname, postfix='')
+        convert_CIFAR_py2_to_py3(filename, newname, suffix='')
 
     filename = os.path.join(dirname, 'test_batch')
     newname =  os.path.join(newdir, 'test_batch')
-    convert_CIFAR_py2_to_py3(filename, newname, postfix='')
+    convert_CIFAR_py2_to_py3(filename, newname, suffix='')
 
 def load_CIFAR_batch(filename):
     """ memuat single batch dari CIFAR 10
@@ -68,6 +68,7 @@ def load_CIFAR_batch(filename):
         return gambar, label
 
 def load_CIFAR10(ROOT):
+
     """ memuat semua dataset CIFAR 10 """
     gambar = []
     label = []
